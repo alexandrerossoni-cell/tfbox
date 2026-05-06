@@ -13,7 +13,7 @@
 <body>
     <header>
         <div class="logo">
-            <img src="logo.png" alt="Box TF Logo" id="main-logo">
+            <img src="logo.png" alt="TFBOX">
         </div>
     </header>
 
@@ -21,14 +21,20 @@
         <section class="hero">
             <div class="hero-overlay"></div>
             <div class="hero-content">
-                <h1>DOMINE SEU <span>CORPO</span>.<br>SUPERE SEUS <span>LIMITES</span>.</h1>
-                <p>Treinamento funcional de alta performance para quem busca resultados reais.</p>
-                <a href="#agendar" class="btn-primary">GARANTIR MINHA AULA EXPERITMENTAL</a>
+                <h1>TREINE COM <span>QUALIDADE</span>.<br>VIVA COM <span>DISPOSIÇÃO</span>.</h1>
+                <p>Acompanhamento personalizado para todas as idades, focado na sua saúde e bem-estar.</p>
+                <div class="hero-btns">
+                    <a href="https://www.google.com/maps/place/TF+BOX+-+Treinamento+Funcional/@-30.0657535,-51.1533158,17z/data=!3m1!4b1!4m6!3m5!1s0x95199d98ea9337f5:0xc68a8e45169591fc!8m2!3d-30.0657535!4d-51.1533158!16s%2Fg%2F11fm_3tpjx?entry=ttu" target="_blank" class="btn-secondary location-btn">
+                        <span class="icon">📍</span> VER LOCALIZAÇÃO
+                    </a>
+                    <button id="hero-cta" class="btn-primary">GARANTIR MINHA AULA EXPERIMENTAL</button>
+                </div>
             </div>
         </section>
 
-        <section id="agendar" class="booking-section">
+        <section id="agendar" class="full-section booking-section">
             <div class="container">
+                <button class="back-step-btn" data-back=".hero" style="margin: 0 auto 30px auto;">← Voltar para o Início</button>
                 <h2>QUAL É O SEU <span>OBJETIVO?</span></h2>
                 <p class="subtitle">Selecione seu foco para personalizarmos seu atendimento.</p>
 
@@ -46,7 +52,7 @@
                     <div class="goal-card" data-goal="Condicionamento">
                         <div class="icon">🏃‍♂️</div>
                         <h3>Condicionamento</h3>
-                        <p>Resistência e fôlego de atleta.</p>
+                        <p>Ganhe fôlego e vitalidade para o dia a dia.</p>
                     </div>
                     <div class="goal-card" data-goal="Saúde e Bem-estar">
                         <div class="icon">🧘</div>
@@ -54,11 +60,15 @@
                         <p>Qualidade de vida e mobilidade.</p>
                     </div>
                 </div>
+            </div>
+        </section>
 
+        <section id="agenda-section" class="full-section booking-section">
+            <div class="container">
+                <button class="back-step-btn" data-back="#agendar">← Voltar para Objetivos</button>
                 <div class="exclusivity-msg">
-                    <p>✨ <strong>Atenção Exclusiva:</strong> Valorizamos sua experiência. Limitamos nossas aulas experimentais a <strong>apenas 2 alunos por horário</strong> para garantir atenção total à sua técnica e segurança.</p>
+                    <p>✨ <strong>Sua Saúde é Nossa Prioridade:</strong> Limitamos nossas aulas a <strong>apenas 2 alunos</strong> por horário para garantir um acompanhamento profissional de perto, respeitando o ritmo e as necessidades de cada corpo.</p>
                 </div>
-
                 <div class="booking-flow">
                     <div class="selection-step">
                         <h3>1. Escolha o <span>Dia</span></h3>
@@ -68,22 +78,33 @@
                     </div>
 
                     <div class="selection-step">
+                        <button class="back-step-btn small-back" data-back="#agenda-section" data-pos="start">← Mudar Data</button>
                         <h3>2. Escolha o <span>Horário</span></h3>
                         <div class="time-grid" id="time-grid">
                             <!-- Horários serão gerados via JS baseado no dia -->
                             <p class="placeholder-text">Selecione um dia primeiro.</p>
                         </div>
                     </div>
+                </div>
+            </div>
+        </section>
 
-                    <div class="form-container">
-                        <h3>3. Seus <span>Dados</span></h3>
-                        <div class="input-group">
-                            <label for="name">Seu Nome</label>
-                            <input type="text" id="name" placeholder="Digite seu nome completo">
-                        </div>
-                        <button id="whatsapp-btn" class="btn-large">RESERVAR MINHA VAGA AGORA</button>
-                        <p class="disclaimer">Vagas limitadas por horário. Sujeito a confirmação.</p>
+        <section id="dados-section" class="full-section booking-section">
+            <div class="container">
+                <div class="form-container">
+                    <button class="back-step-btn" data-back="#agenda-section" style="margin: 0 auto 25px auto;">← Voltar para Agenda</button>
+                    <h3>3. Seus <span>Dados</span></h3>
+                    <div class="input-group">
+                        <label for="name">Seu Nome</label>
+                        <input type="text" id="name" placeholder="Digite seu nome completo">
                     </div>
+                    <div class="input-group">
+                        <label for="phone">Seu WhatsApp</label>
+                        <input type="tel" id="phone" placeholder="(00) 00000-0000">
+                    </div>
+                    <button id="whatsapp-btn" class="btn-primary" style="width: 100%; margin-top: 20px;">RESERVAR MINHA VAGA AGORA</button>
+                    <p class="whatsapp-hint">✨ <strong>Quase lá!</strong> Ao abrir o WhatsApp, lembre-se de <strong>apertar ENVIAR</strong> para concluir seu agendamento.</p>
+                    <p class="disclaimer">Vagas limitadas por horário. Sujeito a confirmação.</p>
                 </div>
             </div>
         </section>
