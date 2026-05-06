@@ -1,116 +1,167 @@
-// CONFIGURAÇÃO SUPABASE (Substitua pelos seus dados)
-const SUPABASE_URL = 'YOUR_SUPABASE_URL';
-const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
-
-const supabase = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
+// CONFIGURAÇÃO SUPABASE
+const SUPABASE_URL = 'https://xbrvbsiatwxcmnssaxwe.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_CWvQLBuFfWih-VxxqZT9XQ_lg6zARGR';
 
 document.addEventListener('DOMContentLoaded', () => {
     const goalCards = document.querySelectorAll('.goal-card');
-    const shiftCards = document.querySelectorAll('.shift-card');
-    const dateSelector = document.getElementById('date-selector');
+    const timeGrid = document.getElementById('time-grid');
     const nameInput = document.getElementById('name');
     const whatsappBtn = document.getElementById('whatsapp-btn');
+    const dateSelector = document.getElementById('date-selector');
     
     let selectedGoal = '';
     let selectedDate = '';
-    let selectedShift = '';
+    let selectedDayIndex = -1;
+    let selectedTime = '';
+    let selectedProfessor = '';
     let existingBookings = [];
 
-    // Initialize
-    const init = async () => {
-        if (supabase) {
-            await fetchAllBookings();
-        }
-        generateDates();
-    };
+    let supabase = null;
+    const isSupabaseConfigured = SUPABASE_URL && SUPABASE_URL !== 'YOUR_SUPABASE_URL' && SUPABASE_ANON_KEY && !SUPABASE_ANON_KEY.startsWith('YOUR_');
 
-    // Fetch all bookings to check slots
-    const fetchAllBookings = async () => {
+    if (window.supabase && isSupabaseConfigured) {
         try {
-            const { data, error } = await supabase
-                .from('bookings')
-                .select('booking_date, shift');
-            
-            if (error) throw error;
-            existingBookings = data || [];
-            console.log('Agendamentos carregados:', existingBookings.length);
-        } catch (err) {
-            console.error('Erro ao buscar agendamentos:', err.message);
-        }
+            supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        } catch (e) { console.error(e); }
+    }
+
+    const schedule = {
+        morning: [
+            { time: '06:15', professor: 'Prof. João', days: [1, 2, 3, 5] },
+            { time: '08:15', professor: 'Prof. Alexandre', days: [1, 2, 3, 5] }
+        ],
+        afternoon: [
+            { time: '16:30', professor: 'Prof. Bruno', days: [1, 2, 3, 4, 5] },
+            { time: '17:15', professor: 'Prof. Bruno', days: [1, 2, 3, 4, 5] },
+            { time: '18:00', professor: 'Prof. Bruno', days: [1, 2, 3, 4, 5] },
+            { time: '18:45', professor: 'Prof. Bruno', days: [1, 2, 3, 4, 5] },
+            { time: '19:30', professor: 'Prof. Bruno', days: [1, 2, 3, 4, 5] }
+        ]
     };
 
-    // Check if a slot is full (max 2)
-    const checkSlotAvailability = (date, shift) => {
-        const count = existingBookings.filter(b => b.booking_date === date && b.shift === shift).length;
-        return count < 2;
+    const scrollToNext = (selector) => {
+        const element = document.querySelector(selector);
+        if (element) element.scrollIntoView({ behavior: 'smooth', block: 'start' });
     };
 
-    // Update shift cards UI based on availability
-    const updateShiftUI = () => {
-        if (!selectedDate) return;
-
-        shiftCards.forEach(card => {
-            const shift = card.getAttribute('data-shift');
-            const isAvailable = checkSlotAvailability(selectedDate, shift);
-            
-            if (!isAvailable) {
-                card.classList.add('disabled');
-                card.style.opacity = '0.3';
-                card.style.pointerEvents = 'none';
-                if (card.querySelector('p')) card.querySelector('p').innerText = 'ESGOTADO';
-            } else {
-                card.classList.remove('disabled');
-                card.style.opacity = '1';
-                card.style.pointerEvents = 'all';
-                const originalTime = shift === 'Manhã' ? '06:00 - 11:00' : shift === 'Tarde' ? '14:00 - 17:00' : '18:00 - 21:00';
-                if (card.querySelector('p')) card.querySelector('p').innerText = originalTime;
-            }
-        });
-    };
-
-    // Generate Dates
+    // 1. GERAÇÃO DE DATAS (MÊS INTEIRO)
     const generateDates = () => {
         const days = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
-        const container = document.getElementById('date-selector');
-        container.innerHTML = '';
+        if (!dateSelector) return;
+        dateSelector.innerHTML = '';
         
-        for (let i = 1; i <= 7; i++) {
-            const date = new Date();
-            date.setDate(date.getDate() + i);
-            if (date.getDay() === 0) continue;
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = now.getMonth();
+        const lastDay = new Date(year, month + 1, 0).getDate();
+        
+        for (let i = now.getDate() + 1; i <= lastDay; i++) {
+            const date = new Date(year, month, i);
+            if (date.getDay() === 0 || date.getDay() === 6) continue;
 
             const dayName = days[date.getDay()];
             const dayNum = date.getDate();
-            const month = date.toLocaleDateString('pt-BR', { month: 'short' }).replace('.', '');
-            const dateString = `${dayName}, ${dayNum} de ${month}`;
+            const monthName = date.toLocaleDateString('pt-BR', { month: 'short' }).replace('.', '');
+            const dateString = `${dayName}, ${dayNum} de ${monthName}`;
             
             const card = document.createElement('div');
             card.className = 'date-card';
-            card.setAttribute('data-date', dateString);
+            card.id = `date-${dayNum}`;
             card.innerHTML = `
                 <span>${dayName}</span>
                 <strong>${dayNum}</strong>
-                <span>${month}</span>
+                <span class="vagas-badge">Calculando...</span>
             `;
             
             card.addEventListener('click', () => {
                 document.querySelectorAll('.date-card').forEach(c => c.classList.remove('active'));
                 card.classList.add('active');
                 selectedDate = dateString;
-                
-                // Clear shift selection when date changes
-                selectedShift = '';
-                shiftCards.forEach(c => c.classList.remove('active'));
-                
-                updateShiftUI();
-                scrollToNext('.shift-grid');
+                selectedDayIndex = date.getDay();
+                selectedTime = '';
+                updateTimeUI();
+                scrollToNext('#time-grid');
             });
             
-            container.appendChild(card);
+            dateSelector.appendChild(card);
         }
     };
 
-    // Goal Selection
+    const updateDateAvailabilityUI = () => {
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = now.getMonth();
+        const lastDay = new Date(year, month + 1, 0).getDate();
+
+        for (let i = now.getDate() + 1; i <= lastDay; i++) {
+            const date = new Date(year, month, i);
+            if (date.getDay() === 0 || date.getDay() === 6) continue;
+
+            const dayName = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'][date.getDay()];
+            const monthName = date.toLocaleDateString('pt-BR', { month: 'short' }).replace('.', '');
+            const dateString = `${dayName}, ${i} de ${monthName}`;
+            
+            const totalSlots = [...schedule.morning, ...schedule.afternoon].filter(s => s.days.includes(date.getDay())).length * 2;
+            const takenSlots = existingBookings.filter(b => b.booking_date === dateString).length;
+            const available = totalSlots - takenSlots;
+
+            const badge = document.querySelector(`#date-${i} .vagas-badge`);
+            if (badge) {
+                badge.innerText = available > 0 ? `${available} vagas` : 'LOTADO';
+                if (available === 0) badge.style.color = '#ff4444';
+                else badge.style.color = 'var(--accent-color)';
+            }
+        }
+    };
+
+    const updateTimeUI = () => {
+        if (selectedDayIndex === -1 || !timeGrid) return;
+        timeGrid.innerHTML = '';
+        const availableSlots = [];
+        [...schedule.morning, ...schedule.afternoon].forEach(slot => {
+            if (slot.days.includes(selectedDayIndex)) availableSlots.push(slot);
+        });
+
+        availableSlots.forEach(slot => {
+            const isAvailable = checkSlotAvailability(selectedDate, slot.time);
+            const card = document.createElement('div');
+            card.className = `time-card ${!isAvailable ? 'disabled' : ''}`;
+            if (!isAvailable) {
+                card.style.opacity = '0.3';
+                card.style.pointerEvents = 'none';
+            }
+            card.innerHTML = `<h4>${slot.time}</h4><span class="professor">${!isAvailable ? 'ESGOTADO' : slot.professor}</span>`;
+            card.addEventListener('click', () => {
+                if (!isAvailable) return;
+                document.querySelectorAll('.time-card').forEach(c => c.classList.remove('active'));
+                card.classList.add('active');
+                selectedTime = slot.time;
+                selectedProfessor = slot.professor;
+                nameInput.focus();
+                nameInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            });
+            timeGrid.appendChild(card);
+        });
+    };
+
+    const checkSlotAvailability = (date, time) => {
+        if (!supabase) return true;
+        return existingBookings.filter(b => b.booking_date === date && b.shift === time).length < 2;
+    };
+
+    const fetchAllBookings = async () => {
+        if (!supabase) {
+            updateDateAvailabilityUI();
+            return;
+        }
+        try {
+            const { data, error } = await supabase.from('bookings').select('booking_date, shift');
+            if (error) throw error;
+            existingBookings = data || [];
+            updateDateAvailabilityUI();
+        } catch (err) { console.error(err.message); updateDateAvailabilityUI(); }
+    };
+
     goalCards.forEach(card => {
         card.addEventListener('click', () => {
             goalCards.forEach(c => c.classList.remove('active'));
@@ -120,79 +171,30 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Shift Selection
-    shiftCards.forEach(card => {
-        card.addEventListener('click', () => {
-            shiftCards.forEach(c => c.classList.remove('active'));
-            card.classList.add('active');
-            selectedShift = card.getAttribute('data-shift');
-            nameInput.focus();
-            nameInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        });
-    });
-
-    const scrollToNext = (selector) => {
-        const element = document.querySelector(selector);
-        if (element) {
-            element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-    };
-
-    // Save to Supabase and Open WhatsApp
     whatsappBtn.addEventListener('click', async () => {
         const name = nameInput.value.trim();
-        
-        if (!selectedGoal || !selectedDate || !selectedShift || !name) {
-            alert('Por favor, preencha todos os campos antes de reservar.');
+        if (!selectedGoal || !selectedDate || !selectedTime || !name) {
+            alert('Por favor, preencha todos os campos.');
             return;
         }
-
         whatsappBtn.innerText = 'PROCESSANDO...';
         whatsappBtn.disabled = true;
-
         try {
-            // 1. Double check availability before saving
             if (supabase) {
-                const { count, error: countError } = await supabase
-                    .from('bookings')
-                    .select('*', { count: 'exact', head: true })
-                    .eq('booking_date', selectedDate)
-                    .eq('shift', selectedShift);
-
+                const { count } = await supabase.from('bookings').select('*', { count: 'exact', head: true })
+                    .eq('booking_date', selectedDate).eq('shift', selectedTime);
                 if (count >= 2) {
-                    alert('Desculpe, este horário acabou de lotar. Por favor, escolha outro.');
+                    alert('Horário lotado!');
                     await fetchAllBookings();
-                    updateShiftUI();
-                    whatsappBtn.innerText = 'RESERVAR MINHA VAGA AGORA';
-                    whatsappBtn.disabled = false;
                     return;
                 }
-
-                // 2. Save Booking
-                const { error: saveError } = await supabase
-                    .from('bookings')
-                    .insert([
-                        { name, goal: selectedGoal, booking_date: selectedDate, shift: selectedShift }
-                    ]);
-
-                if (saveError) throw saveError;
+                await supabase.from('bookings').insert([{ name, goal: selectedGoal, booking_date: selectedDate, shift: selectedTime }]);
             }
-
-            // 3. Open WhatsApp
-            const phoneNumber = '555192438029'; 
-            const message = `Olá! Acabei de reservar minha aula experimental exclusiva no site.\n\n👤 *Nome:* ${name}\n🎯 *Objetivo:* ${selectedGoal}\n📅 *Data:* ${selectedDate}\n🕒 *Turno:* ${selectedShift}\n\n_Vaga reservada com sucesso!_`;
-            const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-            window.open(whatsappUrl, '_blank');
-            
+            window.open(`https://wa.me/555192438029?text=${encodeURIComponent(`Olá! Agendei meu treino.\n\n👤 *Nome:* ${name}\n🎯 *Objetivo:* ${selectedGoal}\n📅 *Data:* ${selectedDate}\n🕒 *Horário:* ${selectedTime} (${selectedProfessor})`)}`, '_blank');
             whatsappBtn.innerText = 'RESERVA CONCLUÍDA!';
-            
-        } catch (err) {
-            console.error('Erro:', err.message);
-            alert('Ocorreu um erro ao processar sua reserva. Tente novamente.');
-            whatsappBtn.innerText = 'RESERVAR MINHA VAGA AGORA';
-            whatsappBtn.disabled = false;
-        }
+        } catch (err) { alert('Erro no agendamento.'); whatsappBtn.innerText = 'RESERVAR MINHA VAGA AGORA'; whatsappBtn.disabled = false; }
     });
 
-    init();
+    generateDates();
+    fetchAllBookings();
 });
