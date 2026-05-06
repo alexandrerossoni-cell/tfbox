@@ -52,9 +52,15 @@
 
 .admin-header {
     background: var(--card-bg);
-    padding: 20px 0;
+    padding: 15px 0;
     border-bottom: 1px solid var(--glass-border);
     margin-bottom: 40px;
+    position: sticky !important; /* Forçar sobreposição ao style.css */
+    top: 0 !important;
+    width: 100% !important;
+    left: 0 !important;
+    z-index: 1000;
+    backdrop-filter: blur(10px);
 }
 
 .admin-header .container {
@@ -66,13 +72,29 @@
 .header-left {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 15px;
+}
+
+.header-left img {
+    height: 35px;
+    width: auto;
 }
 
 .header-left h1 {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     font-weight: 900;
     text-transform: uppercase;
+    margin: 0;
+    white-space: nowrap;
+}
+
+#logout-btn.back-step-btn {
+    margin: 0;
+    display: flex;
+    padding: 8px 15px;
+    border: 1px solid var(--glass-border);
+    border-radius: 8px;
+    font-size: 0.75rem;
 }
 
 .stats-grid {
@@ -221,7 +243,9 @@ td {
 .event-whatsapp_click { background: rgba(37, 211, 102, 0.1); color: #25D366; }
 
 @media (max-width: 768px) {
-    .header-left h1 { font-size: 1.1rem; }
+    .header-left h1 { font-size: 1rem; }
+    .header-left img { height: 30px; }
+    .admin-header { padding: 10px 0; }
     
     .stats-grid {
         grid-template-columns: 1fr 1fr;
