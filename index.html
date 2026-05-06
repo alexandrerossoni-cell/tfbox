@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TFBOX - Agende seu treinamento</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="logo.png" alt="Box TF Logo" id="main-logo">
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="hero-overlay"></div>
+            <div class="hero-content">
+                <h1>DOMINE SEU <span>CORPO</span>.<br>SUPERE SEUS <span>LIMITES</span>.</h1>
+                <p>Treinamento funcional de alta performance para quem busca resultados reais.</p>
+                <a href="#agendar" class="btn-primary">GARANTIR MINHA AULA EXPERITMENTAL</a>
+            </div>
+        </section>
+
+        <section id="agendar" class="booking-section">
+            <div class="container">
+                <h2>QUAL É O SEU <span>OBJETIVO?</span></h2>
+                <p class="subtitle">Selecione seu foco para personalizarmos seu atendimento.</p>
+
+                <div class="goals-grid">
+                    <div class="goal-card" data-goal="Ganho de Massa">
+                        <div class="icon">💪</div>
+                        <h3>Ganho de Massa</h3>
+                        <p>Hipertrofia e força muscular.</p>
+                    </div>
+                    <div class="goal-card" data-goal="Queima de Gordura">
+                        <div class="icon">🔥</div>
+                        <h3>Queima de Gordura</h3>
+                        <p>Definição e perda de peso rápida.</p>
+                    </div>
+                    <div class="goal-card" data-goal="Condicionamento">
+                        <div class="icon">🏃‍♂️</div>
+                        <h3>Condicionamento</h3>
+                        <p>Resistência e fôlego de atleta.</p>
+                    </div>
+                    <div class="goal-card" data-goal="Saúde e Bem-estar">
+                        <div class="icon">🧘</div>
+                        <h3>Saúde e Bem-estar</h3>
+                        <p>Qualidade de vida e mobilidade.</p>
+                    </div>
+                </div>
+
+                <div class="exclusivity-msg">
+                    <p>✨ <strong>Atenção Exclusiva:</strong> Valorizamos sua experiência. Limitamos nossas aulas experimentais a <strong>apenas 2 alunos por horário</strong> para garantir atenção total à sua técnica e segurança.</p>
+                </div>
+
+                <div class="booking-flow">
+                    <div class="selection-step">
+                        <h3>1. Escolha o <span>Dia</span></h3>
+                        <div class="date-selector" id="date-selector">
+                            <!-- Dias serão gerados via JS -->
+                        </div>
+                    </div>
+
+                    <div class="selection-step">
+                        <h3>2. Escolha o <span>Turno</span></h3>
+                        <div class="shift-grid">
+                            <div class="shift-card" data-shift="Manhã">
+                                <span class="time-icon">🌅</span>
+                                <h4>Manhã</h4>
+                                <p>06:00 - 11:00</p>
+                            </div>
+                            <div class="shift-card" data-shift="Tarde">
+                                <span class="time-icon">☀️</span>
+                                <h4>Tarde</h4>
+                                <p>14:00 - 17:00</p>
+                            </div>
+                            <div class="shift-card" data-shift="Noite">
+                                <span class="time-icon">🌙</span>
+                                <h4>Noite</h4>
+                                <p>18:00 - 21:00</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-container">
+                        <h3>3. Seus <span>Dados</span></h3>
+                        <div class="input-group">
+                            <label for="name">Seu Nome</label>
+                            <input type="text" id="name" placeholder="Digite seu nome completo">
+                        </div>
+                        <button id="whatsapp-btn" class="btn-large">RESERVAR MINHA VAGA AGORA</button>
+                        <p class="disclaimer">Vagas limitadas por horário. Sujeito a confirmação.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 TFBOX. Todos os direitos reservados.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
