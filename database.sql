@@ -19,3 +19,17 @@ FOR INSERT WITH CHECK (true);
 -- Necessário para o frontend contar quantos agendamentos existem
 CREATE POLICY "Permitir leitura pública" ON bookings
 FOR SELECT USING (true);
+-- Tabela de Logs de Visitantes para Rastreio
+CREATE TABLE visitor_logs (
+    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    session_id TEXT,
+    event_type TEXT, -- 'page_view', 'goal_click', 'date_click', 'whatsapp_click'
+    event_data TEXT, -- detalhes (ex: qual objetivo clicou)
+    device TEXT,
+    browser TEXT,
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+ALTER TABLE visitor_logs ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Permitir inserção de logs" ON visitor_logs FOR INSERT WITH CHECK (true);
+CREATE POLICY "Permitir leitura de logs" ON visitor_logs FOR SELECT USING (true);
