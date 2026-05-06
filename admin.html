@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TFBOX Admin - Gestão de Reservas</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="admin.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="login-overlay">
+        <div class="login-box">
+            <img src="logo.png" alt="TFBOX Logo" class="admin-logo">
+            <h2>Área Administrativa</h2>
+            <p>Insira a senha para acessar as reservas.</p>
+            <input type="password" id="admin-password" placeholder="Senha de acesso">
+            <button id="login-btn" class="btn-primary">Acessar Painel</button>
+            <p id="login-error" style="color: #ff4444; display: none; margin-top: 10px;">Senha incorreta!</p>
+        </div>
+    </div>
+
+    <div id="admin-panel" style="display: none;">
+        <header class="admin-header">
+            <div class="container">
+                <div class="header-left">
+                    <img src="logo.png" alt="TFBOX" height="40">
+                    <h1>Painel de <span>Reservas</span></h1>
+                </div>
+                <button id="logout-btn" class="back-step-btn">Sair</button>
+            </div>
+        </header>
+
+        <main class="container">
+            <div class="admin-tabs">
+                <button class="tab-btn active" data-tab="reservas">Reservas</button>
+                <button class="tab-btn" data-tab="rastreio">Rastreio de Visitantes</button>
+            </div>
+
+            <div id="reservas-tab" class="tab-content active">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3 id="total-bookings">0</h3>
+                        <p>Total de Reservas</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3 id="today-bookings">0</h3>
+                        <p>Reservas Hoje</p>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <div class="table-header">
+                        <h2>Lista de Alunos</h2>
+                        <button onclick="fetchBookings()" class="refresh-btn">🔄 Atualizar</button>
+                    </div>
+                    <div class="table-wrapper">
+                        <table id="bookings-table">
+                            <thead>
+                                <tr>
+                                    <th>Data</th>
+                                    <th>Horário</th>
+                                    <th>Nome</th>
+                                    <th>WhatsApp</th>
+                                    <th>Objetivo</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="bookings-body">
+                                <!-- Inserido via JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div id="rastreio-tab" class="tab-content">
+                <div class="table-container">
+                    <div class="table-header">
+                        <h2>Logs de Atividade (Últimos 100)</h2>
+                        <button onclick="fetchLogs()" class="refresh-btn">🔄 Atualizar Logs</button>
+                    </div>
+                    <div class="table-wrapper">
+                        <table id="logs-table">
+                            <thead>
+                                <tr>
+                                    <th>Horário</th>
+                                    <th>Evento</th>
+                                    <th>Detalhes</th>
+                                    <th>Dispositivo</th>
+                                    <th>Navegador</th>
+                                </tr>
+                            </thead>
+                            <tbody id="logs-body">
+                                <!-- Inserido via JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+</html>
