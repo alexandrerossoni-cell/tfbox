@@ -35,11 +35,6 @@
         </div>
 
         <main class="container">
-            <div class="admin-tabs">
-                <button class="tab-btn active" data-tab="reservas">Reservas</button>
-                <button class="tab-btn" data-tab="rastreio">Rastreio de Visitantes</button>
-            </div>
-
             <div id="reservas-tab" class="tab-content active">
                 <div class="stats-grid">
                     <div class="stat-card">
@@ -66,35 +61,11 @@
                                     <th>Nome</th>
                                     <th>WhatsApp</th>
                                     <th>Objetivo</th>
+                                    <th>Dispositivo</th>
                                     <th>Ações</th>
                                 </tr>
                             </thead>
                             <tbody id="bookings-body">
-                                <!-- Inserido via JS -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <div id="rastreio-tab" class="tab-content">
-                <div class="table-container">
-                    <div class="table-header">
-                        <h2>Logs de Atividade (Últimos 100)</h2>
-                        <button onclick="fetchLogs()" class="refresh-btn">🔄 Atualizar Logs</button>
-                    </div>
-                    <div class="table-wrapper">
-                        <table id="logs-table">
-                            <thead>
-                                <tr>
-                                    <th>Horário</th>
-                                    <th>Evento</th>
-                                    <th>Detalhes</th>
-                                    <th>Dispositivo</th>
-                                    <th>Navegador</th>
-                                </tr>
-                            </thead>
-                            <tbody id="logs-body">
                                 <!-- Inserido via JS -->
                             </tbody>
                         </table>
