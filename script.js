@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const shareBtn = document.getElementById('share-btn');
     if (shareBtn) {
         shareBtn.addEventListener('click', () => {
-            const urlSite = 'https://alexandrerossoni-cell.github.io/tfbox/';
+            const urlSite = 'https://www.tfbox.com.br/';
             const mensagem = `Opa! Dá uma olhada no treino da TFBOX. Eles estão com aulas experimentais gratuitas, agende a sua por aqui: ${urlSite}`;
             
             // Link direto para compartilhamento no WhatsApp
