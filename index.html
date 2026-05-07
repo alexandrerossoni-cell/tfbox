@@ -11,14 +11,25 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
 </head>
 <body>
-    <header>
-        <div class="logo">
-            <img src="logo.png" alt="TFBOX">
-        </div>
-    </header>
-
     <main>
-        <section class="hero">
+        <!-- Barra de Progresso Premium -->
+        <div class="step-progress-container">
+            <div class="step-progress-bar" id="progress-bar"></div>
+            <div class="steps-info">
+                <span class="step-dot active" data-step="hero"></span>
+                <span class="step-dot" data-step="agendar"></span>
+                <span class="step-dot" data-step="date-section"></span>
+                <span class="step-dot" data-step="time-section"></span>
+                <span class="step-dot" data-step="dados-section"></span>
+            </div>
+        </div>
+
+        <section class="hero active">
+            <header>
+                <div class="logo">
+                    <img src="logo.png" alt="TFBOX">
+                </div>
+            </header>
             <div class="hero-overlay"></div>
             <div class="hero-content">
                 <h1>TREINE COM <span>QUALIDADE</span>.<br>VIVA COM <span>DISPOSIÇÃO</span>.</h1>
@@ -27,7 +38,14 @@
                     <a href="https://www.google.com/maps/place/TF+BOX+-+Treinamento+Funcional/@-30.0657535,-51.1533158,17z/data=!3m1!4b1!4m6!3m5!1s0x95199d98ea9337f5:0xc68a8e45169591fc!8m2!3d-30.0657535!4d-51.1533158!16s%2Fg%2F11fm_3tpjx?entry=ttu" target="_blank" class="btn-secondary location-btn">
                         <span class="icon">📍</span> VER LOCALIZAÇÃO
                     </a>
-                    <button id="hero-cta" class="btn-primary">GARANTIR MINHA AULA EXPERIMENTAL</button>
+                    <button id="hero-cta" class="btn-primary btn-pulse">GARANTIR MINHA AULA EXPERIMENTAL</button>
+                </div>
+                <div class="scroll-hint">
+                    <div class="tap-indicator">
+                        <div class="tap-circle"></div>
+                        <div class="tap-hand">👆</div>
+                    </div>
+                    <p>TOQUE NOS BOTÕES PARA COMEÇAR</p>
                 </div>
             </div>
         </section>
@@ -40,21 +58,25 @@
 
                 <div class="goals-grid">
                     <div class="goal-card" data-goal="Ganho de Massa">
+                        <div class="selection-indicator"></div>
                         <div class="icon">💪</div>
                         <h3>Ganho de Massa</h3>
                         <p>Hipertrofia e força muscular.</p>
                     </div>
                     <div class="goal-card" data-goal="Queima de Gordura">
+                        <div class="selection-indicator"></div>
                         <div class="icon">🔥</div>
                         <h3>Queima de Gordura</h3>
                         <p>Definição e perda de peso rápida.</p>
                     </div>
                     <div class="goal-card" data-goal="Condicionamento">
+                        <div class="selection-indicator"></div>
                         <div class="icon">🏃‍♂️</div>
                         <h3>Condicionamento</h3>
                         <p>Ganhe fôlego e vitalidade para o dia a dia.</p>
                     </div>
                     <div class="goal-card" data-goal="Saúde e Bem-estar">
+                        <div class="selection-indicator"></div>
                         <div class="icon">🧘</div>
                         <h3>Saúde e Bem-estar</h3>
                         <p>Qualidade de vida e mobilidade.</p>
@@ -63,27 +85,29 @@
             </div>
         </section>
 
-        <section id="agenda-section" class="full-section booking-section">
+        <section id="date-section" class="full-section booking-section">
             <div class="container">
                 <button class="back-step-btn" data-back="#agendar">← Voltar para Objetivos</button>
                 <div class="exclusivity-msg">
-                    <p>✨ <strong>Sua Saúde é Nossa Prioridade:</strong> Limitamos nossas aulas a <strong>apenas 2 alunos</strong> por horário para garantir um acompanhamento profissional de perto, respeitando o ritmo e as necessidades de cada corpo.</p>
+                    <p>✨ <strong>Sua Saúde é Nossa Prioridade:</strong> Limitamos nossas aulas a <strong>apenas 2 alunos</strong> por horário para garantir um acompanhamento profissional de perto.</p>
                 </div>
-                <div class="booking-flow">
-                    <div class="selection-step">
-                        <h3>1. Escolha o <span>Dia</span></h3>
-                        <div class="date-selector" id="date-selector">
-                            <!-- Dias serão gerados via JS -->
-                        </div>
+                <div class="selection-step">
+                    <h3>1. Escolha o <span>Dia</span></h3>
+                    <div class="date-selector" id="date-selector">
+                        <!-- Dias serão gerados via JS -->
                     </div>
+                </div>
+            </div>
+        </section>
 
-                    <div class="selection-step">
-                        <button class="back-step-btn small-back" data-back="#agenda-section" data-pos="start">← Mudar Data</button>
-                        <h3>2. Escolha o <span>Horário</span></h3>
-                        <div class="time-grid" id="time-grid">
-                            <!-- Horários serão gerados via JS baseado no dia -->
-                            <p class="placeholder-text">Selecione um dia primeiro.</p>
-                        </div>
+        <section id="time-section" class="full-section booking-section">
+            <div class="container">
+                <button class="back-step-btn" data-back="#date-section">← Mudar Data</button>
+                <div class="selection-step">
+                    <h3>2. Escolha o <span>Horário</span></h3>
+                    <div class="time-grid" id="time-grid">
+                        <!-- Horários serão gerados via JS baseado no dia -->
+                        <p class="placeholder-text">Selecione um dia primeiro.</p>
                     </div>
                 </div>
             </div>
@@ -92,7 +116,7 @@
         <section id="dados-section" class="full-section booking-section">
             <div class="container">
                 <div class="form-container">
-                    <button class="back-step-btn" data-back="#agenda-section" style="margin: 0 auto 25px auto;">← Voltar para Agenda</button>
+                    <button class="back-step-btn" data-back="#time-section" style="margin: 0 auto 25px auto;">← Voltar para Horários</button>
                     <h3>3. Seus <span>Dados</span></h3>
                     <div class="input-group">
                         <label for="name">Seu Nome</label>
@@ -102,7 +126,7 @@
                         <label for="phone">Seu WhatsApp</label>
                         <input type="tel" id="phone" placeholder="(00) 00000-0000">
                     </div>
-                    <button id="whatsapp-btn" class="btn-primary" style="width: 100%; margin-top: 20px;">RESERVAR MINHA VAGA AGORA</button>
+                    <button id="whatsapp-btn" class="btn-primary" style="width: 100%; margin-top: 20px; padding: 16px 20px; font-size: 0.9rem;">RESERVAR MINHA VAGA</button>
                     <p class="whatsapp-hint">✨ <strong>Quase lá!</strong> Ao abrir o WhatsApp, lembre-se de <strong>apertar ENVIAR</strong> para concluir seu agendamento.</p>
                     <p class="disclaimer">Vagas limitadas por horário. Sujeito a confirmação.</p>
                 </div>
