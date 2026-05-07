@@ -4,6 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TFBOX - Agende seu treinamento</title>
+    <meta name="description" content="Treinamento funcional personalizado para todas as idades. Agende sua aula experimental gratuita na TFBOX e transforme sua saúde.">
+    
+    <!-- Open Graph / Facebook / WhatsApp -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://alexandrerossoni-cell.github.io/tfbox/"> 
+    <meta property="og:title" content="TFBOX - Sua Melhor Versão Começa Aqui">
+    <meta property="og:description" content="Treine com qualidade, viva com disposição. Agende sua aula experimental gratuita agora!">
+    <meta property="og:image" content="https://alexandrerossoni-cell.github.io/tfbox/share-card.png">
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="TFBOX - Sua Melhor Versão Começa Aqui">
+    <meta property="twitter:description" content="Treine com qualidade, viva com disposição. Agende sua aula experimental gratuita agora!">
+    <meta property="twitter:image" content="https://alexandrerossoni-cell.github.io/tfbox/share-card.png">
+
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -35,9 +50,14 @@
                 <h1>TREINE COM <span>QUALIDADE</span>.<br>VIVA COM <span>DISPOSIÇÃO</span>.</h1>
                 <p>Acompanhamento personalizado para todas as idades, focado na sua saúde e bem-estar.</p>
                 <div class="hero-btns">
-                    <a href="https://www.google.com/maps/place/TF+BOX+-+Treinamento+Funcional/@-30.0657535,-51.1533158,17z/data=!3m1!4b1!4m6!3m5!1s0x95199d98ea9337f5:0xc68a8e45169591fc!8m2!3d-30.0657535!4d-51.1533158!16s%2Fg%2F11fm_3tpjx?entry=ttu" target="_blank" class="btn-secondary location-btn">
-                        <span class="icon">📍</span> VER LOCALIZAÇÃO
-                    </a>
+                    <div class="btn-group-row">
+                        <a href="https://www.google.com/maps/place/TF+BOX+-+Treinamento+Funcional/@-30.0657535,-51.1533158,17z/data=!3m1!4b1!4m6!3m5!1s0x95199d98ea9337f5:0xc68a8e45169591fc!8m2!3d-30.0657535!4d-51.1533158!16s%2Fg%2F11fm_3tpjx?entry=ttu" target="_blank" class="btn-secondary location-btn">
+                            <span class="icon">📍</span> LOCALIZAÇÃO
+                        </a>
+                        <button id="share-btn" class="btn-secondary">
+                            <span class="icon">🔗</span> INDICAR
+                        </button>
+                    </div>
                     <button id="hero-cta" class="btn-primary btn-pulse">GARANTIR MINHA AULA EXPERIMENTAL</button>
                 </div>
                 <div class="scroll-hint">
