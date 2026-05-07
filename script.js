@@ -482,7 +482,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     
     const fixLayout = () => {
-        // Reset absoluto de todos os níveis de scroll possíveis
+        // Reset absoluto de todos os níveis de scroll possíveis para evitar que o teclado
+        // desloque o layout de forma permanente no mobile
         window.scrollTo(0, 0);
         document.body.scrollTop = 0;
         document.documentElement.scrollTop = 0;
@@ -490,10 +491,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const activeSection = document.querySelector('section.active');
         if (activeSection) {
             activeSection.scrollTop = 0;
-            // Força o navegador a recalcular o layout (hack de reflow)
-            activeSection.style.display = 'none';
-            void activeSection.offsetHeight;
-            activeSection.style.display = 'flex';
+            // Reflow mais suave para garantir o reposicionamento dos elementos absolute
+            activeSection.style.webkitTransform = 'translateZ(0)';
         }
     };
 
