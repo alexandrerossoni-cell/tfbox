@@ -341,7 +341,21 @@ document.addEventListener('DOMContentLoaded', () => {
         whatsappBtn.disabled = true;
         try {
             if (supabase) {
-                // Verificar lotação real antes de inserir
+                // 1. Verificar se este telefone já tem ALGUM agendamento (Regra de Agendamento Único)
+                const { data: userBookings, error: checkUserError } = await supabase
+                    .from('bookings')
+                    .select('id')
+                    .eq('phone', phone)
+                    .limit(1);
+
+                if (userBookings && userBookings.length > 0) {
+                    alert('Você já possui uma aula experimental agendada! Cada aluno tem direito a apenas uma aula gratuita.');
+                    whatsappBtn.innerText = 'RESERVAR MINHA VAGA';
+                    whatsappBtn.disabled = false;
+                    return;
+                }
+
+                // 2. Verificar lotação real do horário escolhido
                 const { data: existing, error: countError } = await supabase
                     .from('bookings')
                     .select('*')
@@ -362,7 +376,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 phone, 
                 goal: selectedGoal, 
                 booking_date: selectedDate, 
-                shift: selectedTime 
+                shift: selectedTime,
+                device: getDeviceInfo() // Novo campo de rastreio
             }]);
 
             if (insertError) {
@@ -396,20 +411,33 @@ document.addEventListener('DOMContentLoaded', () => {
     const sessionId = Math.random().toString(36).substring(7);
     const getDeviceInfo = () => {
         const ua = navigator.userAgent;
+        if (/iPhone|iPad|iPod/.test(ua)) return "iPhone";
+        if (/Android/.test(ua)) return "Android";
         if (/(tablet|ipad|playbook|silk)|(android(?!.*mobi))/i.test(ua)) return "Tablet";
-        if (/Mobile|Android|iP(hone|od)|IEMobile|BlackBerry|Kindle|Silk-Accelerated|(hpw|web)OS|Opera M(obi|ini)/.test(ua)) return "Mobile";
+        if (/Mobile/.test(ua)) return "Mobile";
         return "Desktop";
     };
 
     const logEvent = async (type, data = '') => {
         if (!supabase) return;
         try {
+            // Simplificação do nome do navegador
+            const ua = navigator.userAgent;
+            let browser = "Outro";
+            if (ua.includes("Firefox")) browser = "Firefox";
+            else if (ua.includes("SamsungBrowser")) browser = "Samsung Browser";
+            else if (ua.includes("Opera") || ua.includes("OPR")) browser = "Opera";
+            else if (ua.includes("Trident")) browser = "IE";
+            else if (ua.includes("Edge")) browser = "Edge";
+            else if (ua.includes("Chrome")) browser = "Chrome";
+            else if (ua.includes("Safari")) browser = "Safari";
+
             await supabase.from('visitor_logs').insert([{
                 session_id: sessionId,
                 event_type: type,
                 event_data: data,
                 device: getDeviceInfo(),
-                browser: navigator.userAgent.split(') ')[0].split(' (')[1] || 'Unknown'
+                browser: browser
             }]);
         } catch (e) { console.error('Erro log:', e); }
     };
