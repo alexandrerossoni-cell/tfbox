@@ -83,6 +83,7 @@ function renderBookings(bookings) {
             <td data-label="Nome">${b.name}</td>
             <td data-label="WhatsApp"><a href="${phoneLink}" target="_blank" class="whatsapp-link">${phoneDisplay}</a></td>
             <td data-label="Objetivo"><span class="goal-tag">${b.goal}</span></td>
+            <td data-label="Dispositivo"><small>${b.device || '-'}</small></td>
             <td>
                 <button class="delete-btn" onclick="deleteBooking('${b.id}')">Excluir Registro</button>
             </td>
@@ -107,54 +108,6 @@ async function deleteBooking(id) {
     }
 }
 
-// Tabs
-document.querySelectorAll('.tab-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-        document.querySelectorAll('.tab-btn, .tab-content').forEach(el => el.classList.remove('active'));
-        btn.classList.add('active');
-        const tabId = `${btn.getAttribute('data-tab')}-tab`;
-        document.getElementById(tabId).classList.add('active');
-        
-        if (btn.getAttribute('data-tab') === 'rastreio') fetchLogs();
-    });
-});
-
-async function fetchLogs() {
-    console.log('Iniciando busca de logs...');
-    try {
-        const { data, error } = await supabaseClient
-            .from('visitor_logs')
-            .select('*')
-            .order('created_at', { ascending: false })
-            .limit(100);
-
-        if (error) throw error;
-        renderLogs(data);
-    } catch (err) {
-        console.error('Erro ao buscar logs:', err.message);
-    }
-}
-
-function renderLogs(logs) {
-    const logsBody = document.getElementById('logs-body');
-    if (!logsBody) return;
-    logsBody.innerHTML = '';
-
-    logs.forEach(log => {
-        const date = new Date(log.created_at).toLocaleString('pt-BR');
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td data-label="Horário">${date}</td>
-            <td data-label="Evento"><span class="event-badge event-${log.event_type}">${log.event_type}</span></td>
-            <td data-label="Detalhes">${log.event_data}</td>
-            <td data-label="Dispositivo">${log.device}</td>
-            <td data-label="Navegador">${log.browser}</td>
-        `;
-        logsBody.appendChild(row);
-    });
-}
-
 // Tornar global para o onclick
 window.fetchBookings = fetchBookings;
-window.fetchLogs = fetchLogs;
 window.deleteBooking = deleteBooking;
