@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const phoneInput = document.getElementById('phone');
     
     if (heroCta) {
-        heroCta.addEventListener('click', () => scrollToNext('#agendar'));
+        heroCta.addEventListener('click', () => navigateToSection('#agendar', 'forward'));
     }
 
     // Limpar o hash da URL ao carregar para evitar pulos automáticos ao atualizar
@@ -20,39 +20,18 @@ document.addEventListener('DOMContentLoaded', () => {
         window.history.replaceState('', document.title, window.location.pathname + window.location.search);
     }
 
-    // Bloquear scroll manual
-    const lockScroll = () => {
-        const preventDefault = (e) => {
-            if (e.target.closest('.date-selector') || e.target.closest('.time-grid')) {
-                return;
-            }
-            e.preventDefault();
-        };
-        const keys = {37: 1, 38: 1, 39: 1, 40: 1, 32: 1, 33: 1, 34: 1, 35: 1, 36: 1};
-        const preventDefaultForScrollKeys = (e) => {
-            if (keys[e.keyCode]) {
-                e.preventDefault();
-                return false;
-            }
-        }
-        window.addEventListener('wheel', preventDefault, { passive: false });
-        window.addEventListener('touchmove', preventDefault, { passive: false });
-        window.addEventListener('keydown', preventDefaultForScrollKeys, false);
-    };
-
-    lockScroll();
+    // Lógica de Scroll antigo removida (Estilo App não usa scroll global)
 
     document.querySelectorAll('.back-step-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             const target = btn.getAttribute('data-back');
-            const pos = btn.getAttribute('data-pos') || 'start';
             
             // Se for o botão de mudar data, esconde ele ao clicar
             if (btn.classList.contains('small-back')) {
                 btn.classList.remove('visible');
             }
             
-            scrollToNext(target, pos);
+            navigateToSection(target, 'backward');
         });
     });
 
@@ -106,9 +85,60 @@ document.addEventListener('DOMContentLoaded', () => {
         ]
     };
 
-    const scrollToNext = (selector, position = 'start') => {
-        const element = document.querySelector(selector);
-        if (element) element.scrollIntoView({ behavior: 'smooth', block: position });
+    const navigateToSection = (targetSelector, direction = 'forward') => {
+        const currentActive = document.querySelector('section.active');
+        const nextSection = document.querySelector(targetSelector);
+        
+        if (!nextSection || currentActive === nextSection) return;
+
+        // Limpar animações anteriores
+        nextSection.classList.remove('slide-in-right', 'slide-in-left', 'slide-out-left', 'slide-out-right', 'fade-in');
+        if (currentActive) {
+            currentActive.classList.remove('slide-in-right', 'slide-in-left', 'slide-out-left', 'slide-out-right', 'fade-in');
+        }
+
+        if (direction === 'forward') {
+            if (currentActive) currentActive.classList.add('slide-out-left');
+            nextSection.classList.add('active', 'slide-in-right');
+        } else {
+            if (currentActive) currentActive.classList.add('slide-out-right');
+            nextSection.classList.add('active', 'slide-in-left');
+        }
+
+        // Cleanup após a animação (0.6s definido no CSS)
+        setTimeout(() => {
+            if (currentActive && currentActive !== nextSection) {
+                currentActive.classList.remove('active', 'slide-out-left', 'slide-out-right');
+            }
+        }, 600);
+        
+        // Garantir que a nova seção comece no topo
+        nextSection.scrollTop = 0;
+
+        // Atualizar Barra de Progresso
+        updateProgress(targetSelector);
+    };
+
+    const updateProgress = (targetId) => {
+        const progressBar = document.getElementById('progress-bar');
+        const dots = document.querySelectorAll('.step-dot');
+        const sections = ['hero', 'agendar', 'date-section', 'time-section', 'dados-section'];
+        
+        const cleanId = targetId.replace('#', '').replace('.', '');
+        const currentIndex = sections.indexOf(cleanId);
+        
+        if (currentIndex !== -1) {
+            const progress = (currentIndex / (sections.length - 1)) * 100;
+            if (progressBar) progressBar.style.width = `${progress}%`;
+            
+            dots.forEach((dot, index) => {
+                if (index <= currentIndex) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+        }
     };
 
     // 1. GERAÇÃO DE DATAS (MÊS INTEIRO)
@@ -135,9 +165,9 @@ document.addEventListener('DOMContentLoaded', () => {
             card.className = 'date-card';
             card.id = `date-${dayNum}`;
             card.innerHTML = `
+                <div class="selection-indicator"></div>
                 <span>${dayName}</span>
                 <strong>${dayNum}</strong>
-                <span class="vagas-badge">Calculando...</span>
             `;
             
             card.addEventListener('click', () => {
@@ -148,13 +178,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 selectedTime = '';
                 updateTimeUI();
                 
-                // Mostrar o botão de mudar data apenas quando estiver nos horários
-                // Mostrar o botão de mudar data apenas quando estiver nos horários
-                const smallBack = document.querySelector('.small-back');
-                if (smallBack) smallBack.classList.add('visible');
-                
-                // Rolar para a sessão de horários garantindo que o botão de voltar apareça
-                scrollToNext('.selection-step:nth-child(2)', 'center');
+                // Delay reforçado para ver a animação do check
+                setTimeout(() => {
+                    navigateToSection('#time-section', 'forward');
+                }, 500);
             });
             
             dateSelector.appendChild(card);
@@ -179,11 +206,19 @@ document.addEventListener('DOMContentLoaded', () => {
             const takenSlots = existingBookings.filter(b => b.booking_date === dateString).length;
             const available = totalSlots - takenSlots;
 
-            const badge = document.querySelector(`#date-${i} .vagas-badge`);
-            if (badge) {
-                badge.innerText = available > 0 ? `${available} vagas` : 'LOTADO';
-                if (available === 0) badge.style.color = '#ff4444';
-                else badge.style.color = 'var(--accent-color)';
+            const card = document.getElementById(`date-${i}`);
+            if (card) {
+                if (available <= 0) {
+                    card.classList.add('disabled');
+                    card.style.opacity = '0.2';
+                    card.style.pointerEvents = 'none';
+                    card.style.filter = 'grayscale(1)';
+                } else {
+                    card.classList.remove('disabled');
+                    card.style.opacity = '1';
+                    card.style.pointerEvents = 'auto';
+                    card.style.filter = 'none';
+                }
             }
         }
     };
@@ -208,11 +243,14 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             
             card.innerHTML = `
-                <div class="time-header">
-                    <h4>${slot.time}</h4>
-                    <span class="vagas-count ${vagas === 1 ? 'last-vaga' : ''}">${isAvailable ? `${vagas} ${vagas === 1 ? 'vaga' : 'vagas'}` : 'LOTADO'}</span>
+                <div class="time-content">
+                    <div class="time-header">
+                        <h4>${slot.time}</h4>
+                        <span class="vagas-count ${vagas === 1 ? 'last-vaga' : ''}">${isAvailable ? `${vagas} ${vagas === 1 ? 'vaga' : 'vagas'}` : 'LOTADO'}</span>
+                    </div>
+                    <span class="professor">${slot.professor}</span>
                 </div>
-                <span class="professor">${slot.professor}</span>
+                <div class="selection-indicator"></div>
             `;
 
             card.addEventListener('click', (e) => {
@@ -225,8 +263,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 selectedTime = slot.time;
                 selectedProfessor = slot.professor;
                 
-                // Navegação imediata
-                scrollToNext('#dados-section', 'center');
+                // Pequeno delay para ver a animação do check
+                setTimeout(() => {
+                    navigateToSection('#dados-section', 'forward');
+                }, 400);
                 
                 // Feedback tátil/visual imediato para mobile
                 if (window.navigator.vibrate) window.navigator.vibrate(10);
@@ -248,14 +288,6 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
 
-    goalCards.forEach(card => {
-        card.addEventListener('click', () => {
-            goalCards.forEach(c => c.classList.remove('active'));
-            card.classList.add('active');
-            selectedGoal = card.getAttribute('data-goal');
-            scrollToNext('#agenda-section');
-        });
-    });
 
     whatsappBtn.addEventListener('click', async () => {
         const name = nameInput.value.trim();
@@ -270,21 +302,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Validação hierárquica
         if (!selectedGoal) {
-            scrollToNext('.booking-section h2');
+            navigateToSection('#agendar', 'backward');
             const el = document.querySelector('.goals-grid');
             el.classList.add('error-container');
             el.addEventListener('click', () => el.classList.remove('error-container'), { once: true });
             return;
         }
         if (!selectedDate) {
-            scrollToNext('#date-selector');
+            navigateToSection('#date-section', 'backward');
             const el = document.querySelector('.date-selector');
             el.classList.add('error-container');
             el.addEventListener('click', () => el.classList.remove('error-container'), { once: true });
             return;
         }
         if (!selectedTime) {
-            scrollToNext('#time-grid');
+            navigateToSection('#time-section', 'backward');
             const el = document.querySelector('.time-grid');
             el.classList.add('error-container');
             el.addEventListener('click', () => el.classList.remove('error-container'), { once: true });
@@ -319,32 +351,32 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (existing && existing.length >= 2) {
                     alert('Este horário acabou de lotar! Por favor, escolha outro.');
                     await fetchAllBookings();
-                    whatsappBtn.innerText = 'RESERVAR MINHA VAGA AGORA';
-                    whatsappBtn.disabled = false;
-                    return;
-                }
-
-                console.log('Tentando inserir:', { name, phone, goal: selectedGoal, booking_date: selectedDate, shift: selectedTime });
-                const { error: insertError } = await supabase.from('bookings').insert([{ 
-                    name, 
-                    phone, 
-                    goal: selectedGoal, 
-                    booking_date: selectedDate, 
-                    shift: selectedTime 
-                }]);
-
-                if (insertError) {
-                    console.error('Erro na inserção:', insertError);
-                    throw insertError;
-                }
-                console.log('Inserção bem-sucedida no Banco de Dados!');
-                logEvent('whatsapp_click', `Vaga: ${selectedDate} ${selectedTime}`); // LOG DE CONVERSÃO
+                whatsappBtn.innerText = 'RESERVAR MINHA VAGA';
+                whatsappBtn.disabled = false;
+                return;
             }
-            const message = `🔥 *NOVO AGENDAMENTO - TFBOX* 🔥\n\nOlá! Acabei de agendar minha aula experimental pelo site:\n\n👤 *NOME:* ${name}\n📱 *CONTATO:* ${phone}\n🎯 *FOCO:* ${selectedGoal}\n📅 *DATA:* ${selectedDate}\n🕒 *HORÁRIO:* ${selectedTime}\n👨‍🏫 *PROFESSOR:* ${selectedProfessor}\n\nAguardo a confirmação! 🚀`;
-            window.location.href = `https://wa.me/555192438029?text=${encodeURIComponent(message)}`;
-            whatsappBtn.innerText = 'RESERVA CONCLUÍDA!';
-        } catch (err) { alert('Erro no agendamento.'); whatsappBtn.innerText = 'RESERVAR MINHA VAGA AGORA'; whatsappBtn.disabled = false; }
-    });
+
+            console.log('Tentando inserir:', { name, phone, goal: selectedGoal, booking_date: selectedDate, shift: selectedTime });
+            const { error: insertError } = await supabase.from('bookings').insert([{ 
+                name, 
+                phone, 
+                goal: selectedGoal, 
+                booking_date: selectedDate, 
+                shift: selectedTime 
+            }]);
+
+            if (insertError) {
+                console.error('Erro na inserção:', insertError);
+                throw insertError;
+            }
+            console.log('Inserção bem-sucedida no Banco de Dados!');
+            logEvent('whatsapp_click', `Vaga: ${selectedDate} ${selectedTime}`); // LOG DE CONVERSÃO
+        }
+        const message = `🔥 *NOVO AGENDAMENTO - TFBOX* 🔥\n\nOlá! Acabei de agendar minha aula experimental pelo site:\n\n👤 *NOME:* ${name}\n📱 *CONTATO:* ${phone}\n🎯 *FOCO:* ${selectedGoal}\n📅 *DATA:* ${selectedDate}\n🕒 *HORÁRIO:* ${selectedTime}\n👨‍🏫 *PROFESSOR:* ${selectedProfessor}\n\nAguardo a confirmação! 🚀`;
+        window.location.href = `https://wa.me/555192438029?text=${encodeURIComponent(message)}`;
+        whatsappBtn.innerText = 'RESERVA CONCLUÍDA!';
+    } catch (err) { alert('Erro no agendamento.'); whatsappBtn.innerText = 'RESERVAR MINHA VAGA'; whatsappBtn.disabled = false; }
+});
 
     const fetchAllBookings = async () => {
         if (!supabase) {
@@ -395,15 +427,72 @@ document.addEventListener('DOMContentLoaded', () => {
             .subscribe();
     }
 
-    // Ajuste inteligente: Só re-enquadra se o teclado REALMENTE subir (detectando mudança de altura da tela)
+    // Ajuste inteligente para teclado mobile
     let originalHeight = window.innerHeight;
-    window.addEventListener('resize', () => {
-        const isKeyboardUp = window.innerHeight < originalHeight * 0.85;
-        if (isKeyboardUp) {
-            const activeInput = document.activeElement;
-            if (activeInput && activeInput.tagName === 'INPUT') {
-                activeInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    
+    window.addEventListener('orientationchange', () => {
+        setTimeout(() => {
+            originalHeight = window.innerHeight;
+        }, 500);
+    });
+    
+    const fixLayout = () => {
+        // Reset absoluto de todos os níveis de scroll possíveis
+        window.scrollTo(0, 0);
+        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0;
+        
+        const activeSection = document.querySelector('section.active');
+        if (activeSection) {
+            activeSection.scrollTop = 0;
+            // Força o navegador a recalcular o layout (hack de reflow)
+            activeSection.style.display = 'none';
+            void activeSection.offsetHeight;
+            activeSection.style.display = 'flex';
+        }
+    };
+
+
+    // Visual Viewport API - A forma mais precisa de detectar teclado no mobile
+    if (window.visualViewport) {
+        window.visualViewport.addEventListener('resize', () => {
+            const isKeyboardClosed = window.visualViewport.height >= originalHeight * 0.85;
+            if (isKeyboardClosed) {
+                document.body.classList.remove('keyboard-open');
+                fixLayout();
+                // Tenta resetar novamente em 300ms por segurança
+                setTimeout(fixLayout, 300);
             }
+        });
+    }
+
+    // Gerenciamento de foco unificado
+    const handleFocus = () => {
+        document.body.classList.add('keyboard-open');
+    };
+
+    const handleBlur = () => {
+        // Pequeno delay para checar se mudou para outro input ou fechou
+        setTimeout(() => {
+            if (document.activeElement.tagName !== 'INPUT') {
+                document.body.classList.remove('keyboard-open');
+                fixLayout();
+            }
+        }, 100);
+    };
+
+    [nameInput, phoneInput].forEach(input => {
+        if (input) {
+            input.addEventListener('focus', handleFocus);
+            input.addEventListener('blur', handleBlur);
+        }
+    });
+
+    // Reset via focusout (backup)
+    document.addEventListener('focusout', (e) => {
+        if (e.target.tagName === 'INPUT') {
+            setTimeout(fixLayout, 200);
+            setTimeout(fixLayout, 400);
         }
     });
 
@@ -413,7 +502,11 @@ document.addEventListener('DOMContentLoaded', () => {
             card.classList.add('active');
             selectedGoal = card.getAttribute('data-goal');
             logEvent('goal_click', selectedGoal); // LOG
-            scrollToNext('#agenda-section');
+            
+            // Delay reforçado para ver a animação do check
+            setTimeout(() => {
+                navigateToSection('#date-section', 'forward');
+            }, 500);
         });
     });
 
