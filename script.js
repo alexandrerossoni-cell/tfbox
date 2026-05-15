@@ -180,7 +180,11 @@ document.addEventListener('DOMContentLoaded', () => {
             card.className = 'date-card';
             card.setAttribute('data-date', dateString);
             card.setAttribute('data-day-index', date.getDay());
-            card.innerHTML = `<span>${dayName}</span><strong>${dayNum}</strong>`;
+            card.innerHTML = `
+                <span>${dayName}</span>
+                <strong>${dayNum}</strong>
+                <div class="month-label">${monthName}</div>
+            `;
             
             card.addEventListener('click', () => {
                 document.querySelectorAll('.date-card').forEach(c => c.classList.remove('active'));
@@ -346,6 +350,20 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Inicialização
-    logEvent('page_view');
+    // Lógica de Scroll para CTA
+    const headerCta = document.getElementById('header-cta');
+    const floatingCta = document.getElementById('floating-cta');
+
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 400) {
+            if (headerCta) headerCta.style.display = 'block';
+            if (floatingCta) floatingCta.classList.add('visible');
+        } else {
+            if (headerCta) headerCta.style.display = 'none';
+            if (floatingCta) floatingCta.classList.remove('visible');
+        }
+    });
+
+    logEvent('page_view', 'landing');
     fetchAllBookings();
 });

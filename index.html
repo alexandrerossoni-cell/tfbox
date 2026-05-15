@@ -55,7 +55,7 @@
                     <a href="#sobre">SOBRE</a>
                     <a href="#objetivos">OBJETIVOS</a>
                     <a href="#localizacao">LOCALIZAÇÃO</a>
-                    <button class="nav-cta btn-open-booking">AGENDAR AGORA</button>
+                    <button class="nav-cta btn-open-booking" id="header-cta" style="display: none;">AGENDAR AGORA</button>
                 </nav>
             </div>
         </header>
@@ -69,11 +69,7 @@
                     <h1>TREINE COM <span>QUALIDADE</span>.<br>VIVA COM <span>DISPOSIÇÃO</span>.</h1>
                     <p>Treinamento funcional em Porto Alegre limitado a <strong>6 alunos por horário</strong> para garantir foco total de acordo com seu objetivo.</p>
                     <div class="hero-btns">
-                        <button class="btn-primary btn-pulse btn-open-booking">QUERO MINHA AULA GRÁTIS</button>
-                        <div class="btn-group-row">
-                            <a href="#sobre" class="btn-secondary">CONHECER O ESPAÇO</a>
-                            <button id="share-btn-landing" class="btn-secondary">INDICAR AMIGO</button>
-                        </div>
+                        <a href="#objetivos" class="btn-primary" style="text-decoration: none;">CONHECER A TFBOX</a>
                     </div>
                 </div>
             </section>
@@ -170,8 +166,9 @@
                         </div>
                         <div class="location-details">
                             <p><strong>Endereço:</strong> R. Nero José da Silva Filho, 30 - Partenon, Porto Alegre - RS, 91530-570</p>
-                            <p><strong>Telefone:</strong> (51) 9243-8029</p>
                             <a href="https://www.google.com/maps/dir//TF+BOX+-+Treinamento+Funcional" target="_blank" class="btn-secondary">VER NO GOOGLE MAPS</a>
+                            <h3 style="color: var(--accent-color); font-weight: 900; margin-top: 30px; font-size: 1.6rem; line-height: 1.2;">SUA MELHOR VERSÃO <br>COMEÇA AGORA</h3>
+                            <button class="btn-primary btn-pulse btn-open-booking" style="margin-top: 25px; width: 100%;">QUERO MINHA AULA GRÁTIS</button>
                         </div>
                     </div>
                 </div>
@@ -186,6 +183,7 @@
                 <p>&copy; 2026 TFBOX. Todos os direitos reservados.</p>
             </div>
         </footer>
+
     </div>
 
     <!-- APP DE AGENDAMENTO (OCULTO INICIALMENTE) -->
@@ -219,18 +217,22 @@
                         <div class="goal-card" data-goal="Ganho de Massa">
                             <div class="icon">💪</div>
                             <h3>Ganho de Massa</h3>
+                            <div class="goal-btn">SELECIONAR</div>
                         </div>
                         <div class="goal-card" data-goal="Queima de Gordura">
                             <div class="icon">🔥</div>
                             <h3>Queima de Gordura</h3>
+                            <div class="goal-btn">SELECIONAR</div>
                         </div>
                         <div class="goal-card" data-goal="Condicionamento">
                             <div class="icon">🏃‍♂️</div>
                             <h3>Condicionamento</h3>
+                            <div class="goal-btn">SELECIONAR</div>
                         </div>
                         <div class="goal-card" data-goal="Saúde e Bem-estar">
                             <div class="icon">🧘</div>
                             <h3>Saúde e Bem-estar</h3>
+                            <div class="goal-btn">SELECIONAR</div>
                         </div>
                     </div>
                 </div>
@@ -238,7 +240,7 @@
                 <!-- Passo 2: Data -->
                 <div id="step-data" class="step-content">
                     <button class="app-back-btn" data-to="objetivo">← Voltar</button>
-                    <h2>ESCOLHA O <span>DIA</span></h2>
+                    <h2>QUAL O MELHOR DIA PARA SUA <span>AULA EXPERIMENTAL GRÁTIS?</span></h2>
                     <div class="date-selector" id="date-selector"></div>
                 </div>
 
