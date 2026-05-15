@@ -43,137 +43,242 @@
     <!-- End Meta Pixel Code -->
 </head>
 <body>
-    <main>
-        <!-- Barra de Progresso Premium -->
-        <div class="step-progress-container">
-            <div class="step-progress-bar" id="progress-bar"></div>
-            <div class="steps-info">
-                <span class="step-dot active" data-step="hero"></span>
-                <span class="step-dot" data-step="agendar"></span>
-                <span class="step-dot" data-step="date-section"></span>
-                <span class="step-dot" data-step="time-section"></span>
-                <span class="step-dot" data-step="dados-section"></span>
-            </div>
-        </div>
 
-        <section class="hero active">
-            <header>
+    <!-- SITE DE CONVENCIMENTO -->
+    <div id="landing-page">
+        <header class="main-header">
+            <div class="container header-content">
                 <div class="logo">
                     <img src="logo.png" alt="TFBOX">
                 </div>
+                <nav class="desktop-nav">
+                    <a href="#sobre">SOBRE</a>
+                    <a href="#objetivos">OBJETIVOS</a>
+                    <a href="#localizacao">LOCALIZAÇÃO</a>
+                    <button class="nav-cta btn-open-booking">AGENDAR AGORA</button>
+                </nav>
+            </div>
+        </header>
+
+        <main>
+            <!-- Hero -->
+            <section class="hero-new">
+                <div class="hero-overlay"></div>
+                <div class="container hero-content">
+                    <span class="badge">AULA EXPERIMENTAL GRATUITA</span>
+                    <h1>TREINE COM <span>QUALIDADE</span>.<br>VIVA COM <span>DISPOSIÇÃO</span>.</h1>
+                    <p>Treinamento funcional em Porto Alegre limitado a <strong>6 alunos por horário</strong> para garantir foco total de acordo com seu objetivo.</p>
+                    <div class="hero-btns">
+                        <button class="btn-primary btn-pulse btn-open-booking">QUERO MINHA AULA GRÁTIS</button>
+                        <div class="btn-group-row">
+                            <a href="#sobre" class="btn-secondary">CONHECER O ESPAÇO</a>
+                            <button id="share-btn-landing" class="btn-secondary">INDICAR AMIGO</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quebra de Objeções -->
+            <section id="objetivos" class="content-section">
+                <div class="container">
+                    <h2 class="section-title text-center">ISSO É PARA <span>VOCÊ?</span></h2>
+                    <div class="objections-grid">
+                        <div class="objection-card">
+                            <div class="obj-icon">🚫</div>
+                            <h3>"Não gosto de academia lotada"</h3>
+                            <p><strong>Nossa solução:</strong> Limitamos a 6 alunos por horário. Você terá privacidade e foco total do professor.</p>
+                        </div>
+                        <div class="objection-card">
+                            <div class="obj-icon">🤕</div>
+                            <h3>"Tenho medo de me lesionar"</h3>
+                            <p><strong>Nossa solução:</strong> Cada movimento é monitorado e corrigido em tempo real. Segurança é nosso pilar número 1.</p>
+                        </div>
+                        <div class="objection-card">
+                            <div class="obj-icon">⏳</div>
+                            <h3>"Não tenho muito tempo"</h3>
+                            <p><strong>Nossa solução:</strong> Treinos otimizados de 45-50 min com hora marcada. Sem espera por aparelhos.</p>
+                        </div>
+                        <div class="objection-card">
+                            <div class="obj-icon">📉</div>
+                            <h3>"Estou muito fora de forma"</h3>
+                            <p><strong>Nossa solução:</strong> Não importa seu nível atual. Adaptamos cada exercício para sua realidade e evolução gradual.</p>
+                        </div>
+                    </div>
+                    <div class="text-center" style="margin-top: 50px;">
+                        <button class="btn-primary btn-open-booking">CHEGA DE DESCULPAS. VAMOS COMEÇAR?</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Seção Sobre / Fotos -->
+            <section id="sobre" class="content-section alternate-bg">
+                <div class="container">
+                    <div class="section-grid">
+                        <div class="section-text">
+                            <h2 class="section-title">O ESPAÇO QUE VOCÊ <span>MERECE</span></h2>
+                            <p>Na TFBOX, focamos em resultados reais através do movimento funcional. Um ambiente planejado para quem busca exclusividade.</p>
+                            <ul class="check-list">
+                                <li>Equipamentos de alta performance</li>
+                                <li>Ambiente climatizado e exclusivo</li>
+                                <li>Acompanhamento profissional em cada repetição</li>
+                                <li>Foco em mobilidade, força e vitalidade</li>
+                            </ul>
+                        </div>
+                        <div class="section-image">
+                            <div class="image-grid-composition">
+                                <img src="espaco1.jpg" alt="Estrutura TFBOX 1" class="grid-img">
+                                <img src="espaco2.jpg" alt="Estrutura TFBOX 2" class="grid-img">
+                                <img src="espaco3.jpg" alt="Estrutura TFBOX 3" class="grid-img">
+                                <img src="espaco4.jpg" alt="Estrutura TFBOX 4" class="grid-img">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Seção Prova Social -->
+            <section class="content-section">
+                <div class="container">
+                    <div class="section-grid reverse">
+                        <div class="section-text">
+                            <h2 class="section-title">PARA TODAS AS <span>IDADES</span></h2>
+                            <p>Nosso método se adapta a você. Seja você um atleta buscando performance ou alguém que quer apenas viver sem dores.</p>
+                            <div class="testimonial-simple">
+                                <p>"A atenção que recebo aqui mudou minha relação com o exercício. Me sinto cuidada e motivada."</p>
+                                <span>- Maria Clara, aluna TFBOX</span>
+                            </div>
+                        </div>
+                        <div class="section-image">
+                            <div class="image-grid-composition">
+                                <img src="idade1.jpg" alt="Alunos TFBOX 1" class="grid-img">
+                                <img src="idade2.jpg" alt="Alunos TFBOX 2" class="grid-img">
+                                <img src="idade3.jpg" alt="Alunos TFBOX 3" class="grid-img">
+                                <img src="idade4.jpg" alt="Alunos TFBOX 4" class="grid-img">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Localização -->
+            <section id="localizacao" class="content-section alternate-bg">
+                <div class="container">
+                    <h2 class="section-title text-center">ONDE <span>ESTAMOS</span></h2>
+                    <div class="location-container">
+                        <div class="map-box">
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3452.9922247657743!2d-51.155890724810795!3d-30.0657488317336!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95199d98ea9337f5%3A0xc68a8e45169591fc!2sTF%20BOX%20-%20Treinamento%20Funcional!5e0!3m2!1sen!2sbr!4v1715694263435!5m2!1sen!2sbr" width="100%" height="450" style="border:0; border-radius: 12px;" allowfullscreen="" loading="lazy"></iframe>
+                        </div>
+                        <div class="location-details">
+                            <p><strong>Endereço:</strong> R. Nero José da Silva Filho, 30 - Partenon, Porto Alegre - RS, 91530-570</p>
+                            <p><strong>Telefone:</strong> (51) 9243-8029</p>
+                            <a href="https://www.google.com/maps/dir//TF+BOX+-+Treinamento+Funcional" target="_blank" class="btn-secondary">VER NO GOOGLE MAPS</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <div class="container footer-content">
+                <div class="footer-logo">
+                    <img src="logo.png" alt="TFBOX">
+                </div>
+                <p>&copy; 2026 TFBOX. Todos os direitos reservados.</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- APP DE AGENDAMENTO (OCULTO INICIALMENTE) -->
+    <div id="booking-app" style="display: none;">
+        <!-- Barra de Progresso do App -->
+        <div class="app-progress">
+            <div class="app-progress-bar" id="app-progress-bar"></div>
+        </div>
+
+        <div class="app-container">
+            <header class="app-header">
+                <button class="app-exit-btn" id="btn-close-booking">✕ Sair</button>
+                <div class="app-logo-small">
+                    <img src="logo.png" alt="TFBOX">
+                </div>
+                <div class="app-step-indicator">
+                    <span id="current-step-label">Passo 1 de 4</span>
+                </div>
             </header>
-            <div class="hero-overlay"></div>
-            <div class="hero-content">
-                <h1>TREINE COM <span>QUALIDADE</span>.<br>VIVA COM <span>DISPOSIÇÃO</span>.</h1>
-                <p>Acompanhamento personalizado para todas as idades, focado na sua saúde e bem-estar.</p>
-                <div class="hero-btns">
-                    <div class="btn-group-row">
-                        <a href="https://www.google.com/maps/place/TF+BOX+-+Treinamento+Funcional/@-30.0657535,-51.1533158,17z/data=!3m1!4b1!4m6!3m5!1s0x95199d98ea9337f5:0xc68a8e45169591fc!8m2!3d-30.0657535!4d-51.1533158!16s%2Fg%2F11fm_3tpjx?entry=ttu" target="_blank" class="btn-secondary location-btn">
-                            <span class="icon">📍</span> LOCALIZAÇÃO
-                        </a>
-                        <button id="share-btn" class="btn-secondary">
-                            <span class="icon">🔗</span> INDICAR
-                        </button>
-                    </div>
-                    <button id="hero-cta" class="btn-primary btn-pulse">AGENDAR MINHA AULA EXPERIMENTAL GRATUITA</button>
-                </div>
-                <div class="scroll-hint">
-                    <div class="tap-indicator">
-                        <div class="tap-circle"></div>
-                        <div class="tap-hand">👆</div>
-                    </div>
-                    <p>TOQUE NOS BOTÕES PARA COMEÇAR</p>
-                </div>
+
+            <div class="app-quick-info">
+                <span>⏱️ Leva menos de 1 minuto</span>
             </div>
-        </section>
 
-        <section id="agendar" class="full-section booking-section">
-            <div class="container">
-                <button class="back-step-btn" data-back=".hero" style="margin: 0 auto 30px auto;">← Voltar para o Início</button>
-                <h2>QUAL É O SEU <span>OBJETIVO?</span></h2>
-                <p class="subtitle">Selecione seu foco para personalizarmos seu atendimento.</p>
-
-                <div class="goals-grid">
-                    <div class="goal-card" data-goal="Ganho de Massa">
-                        <div class="selection-indicator"></div>
-                        <div class="icon">💪</div>
-                        <h3>Ganho de Massa</h3>
-                        <p>Hipertrofia e força muscular.</p>
-                    </div>
-                    <div class="goal-card" data-goal="Queima de Gordura">
-                        <div class="selection-indicator"></div>
-                        <div class="icon">🔥</div>
-                        <h3>Queima de Gordura</h3>
-                        <p>Definição e perda de peso rápida.</p>
-                    </div>
-                    <div class="goal-card" data-goal="Condicionamento">
-                        <div class="selection-indicator"></div>
-                        <div class="icon">🏃‍♂️</div>
-                        <h3>Condicionamento</h3>
-                        <p>Ganhe fôlego e vitalidade para o dia a dia.</p>
-                    </div>
-                    <div class="goal-card" data-goal="Saúde e Bem-estar">
-                        <div class="selection-indicator"></div>
-                        <div class="icon">🧘</div>
-                        <h3>Saúde e Bem-estar</h3>
-                        <p>Qualidade de vida e mobilidade.</p>
+            <div id="booking-flow-container">
+                <!-- Passo 1: Objetivo -->
+                <div id="step-objetivo" class="step-content active">
+                    <h2>QUAL É O SEU <span>OBJETIVO?</span></h2>
+                    <p class="subtitle">Selecione seu foco principal.</p>
+                    <div class="goals-grid-app">
+                        <div class="goal-card" data-goal="Ganho de Massa">
+                            <div class="icon">💪</div>
+                            <h3>Ganho de Massa</h3>
+                        </div>
+                        <div class="goal-card" data-goal="Queima de Gordura">
+                            <div class="icon">🔥</div>
+                            <h3>Queima de Gordura</h3>
+                        </div>
+                        <div class="goal-card" data-goal="Condicionamento">
+                            <div class="icon">🏃‍♂️</div>
+                            <h3>Condicionamento</h3>
+                        </div>
+                        <div class="goal-card" data-goal="Saúde e Bem-estar">
+                            <div class="icon">🧘</div>
+                            <h3>Saúde e Bem-estar</h3>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </section>
 
-        <section id="date-section" class="full-section booking-section">
-            <div class="container">
-                <button class="back-step-btn" data-back="#agendar">← Voltar para Objetivos</button>
-                <div class="exclusivity-msg">
-                    <p>✨ <strong>Sua Saúde é Nossa Prioridade:</strong> Limitamos nossas aulas a <strong>apenas 2 alunos</strong> por horário para garantir um acompanhamento profissional de perto.</p>
+                <!-- Passo 2: Data -->
+                <div id="step-data" class="step-content">
+                    <button class="app-back-btn" data-to="objetivo">← Voltar</button>
+                    <h2>ESCOLHA O <span>DIA</span></h2>
+                    <div class="date-selector" id="date-selector"></div>
                 </div>
-                <div class="selection-step">
-                    <h3>1. Escolha o <span>Dia</span></h3>
-                    <div class="date-selector" id="date-selector">
-                        <!-- Dias serão gerados via JS -->
+
+                <!-- Passo 3: Horário -->
+                <div id="step-hora" class="step-content">
+                    <button class="app-back-btn" data-to="data">← Mudar Data</button>
+                    <h2>ESCOLHA O <span>HORÁRIO</span></h2>
+                    <div class="time-grid" id="time-grid"></div>
+                </div>
+
+                <!-- Passo 4: Dados -->
+                <div id="step-dados" class="step-content">
+                    <button class="app-back-btn" data-to="hora">← Mudar Horário</button>
+                    <h2>SEUS <span>DADOS</span></h2>
+                    <div class="form-container-app">
+                        <div class="input-group">
+                            <label>Seu Nome</label>
+                            <input type="text" id="name" placeholder="Nome completo">
+                        </div>
+                        <div class="input-group">
+                            <label>Seu WhatsApp</label>
+                            <input type="tel" id="phone" placeholder="(00) 00000-0000">
+                        </div>
+                        <button id="whatsapp-btn" class="btn-primary" style="width: 100%; margin-top: 20px;">RESERVAR MINHA VAGA</button>
+                        <p class="whatsapp-hint">✨ <strong>Atenção:</strong> Ao abrir o WhatsApp, você deve apertar <strong>ENVIAR</strong> para confirmar.</p>
                     </div>
                 </div>
-            </div>
-        </section>
 
-        <section id="time-section" class="full-section booking-section">
-            <div class="container">
-                <button class="back-step-btn" data-back="#date-section">← Mudar Data</button>
-                <div class="selection-step">
-                    <h3>2. Escolha o <span>Horário</span></h3>
-                    <div class="time-grid" id="time-grid">
-                        <!-- Horários serão gerados via JS baseado no dia -->
-                        <p class="placeholder-text">Selecione um dia primeiro.</p>
+                <!-- Passo Final: Sucesso -->
+                <div id="step-sucesso" class="step-content">
+                    <div class="success-msg">
+                        <div class="success-icon">✅</div>
+                        <h3>VAGA PRÉ-RESERVADA!</h3>
+                        <p>Clique abaixo e <strong>envie a mensagem</strong> no nosso WhatsApp para confirmar seu horário.</p>
+                        <a id="final-whatsapp-link" href="#" class="btn-primary btn-pulse" style="text-decoration: none; display: block; text-align: center; margin-top: 30px;">CONFIRMAR NO WHATSAPP</a>
                     </div>
                 </div>
             </div>
-        </section>
-
-        <section id="dados-section" class="full-section booking-section">
-            <div class="container">
-                <div class="form-container">
-                    <button class="back-step-btn" data-back="#time-section" style="margin: 0 auto 25px auto;">← Voltar para Horários</button>
-                    <h3>3. Seus <span>Dados</span></h3>
-                    <div class="input-group">
-                        <label for="name">Seu Nome</label>
-                        <input type="text" id="name" placeholder="Digite seu nome completo">
-                    </div>
-                    <div class="input-group">
-                        <label for="phone">Seu WhatsApp</label>
-                        <input type="tel" id="phone" placeholder="(00) 00000-0000">
-                    </div>
-                    <button id="whatsapp-btn" class="btn-primary" style="width: 100%; margin-top: 20px; padding: 16px 20px; font-size: 0.9rem;">RESERVAR MINHA VAGA</button>
-                    <p class="whatsapp-hint">✨ <strong>Quase lá!</strong> Ao abrir o WhatsApp, lembre-se de <strong>apertar ENVIAR</strong> para concluir seu agendamento.</p>
-                    <p class="disclaimer">Vagas limitadas por horário. Sujeito a confirmação.</p>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer>
-        <p>&copy; 2026 TFBOX. Todos os direitos reservados.</p>
-    </footer>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>
