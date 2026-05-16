@@ -281,7 +281,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (finalLink) finalLink.href = `https://wa.me/555192438029?text=${encodeURIComponent(message)}`;
                 
                 showStep('sucesso');
-                if (window.fbq) fbq('track', 'Lead', { content_name: selectedGoal });
+                if (window.fbq) fbq('track', 'Purchase', { currency: 'BRL', value: 0.00, content_name: selectedGoal });
                 logEvent('booking_complete');
 
             } catch (err) {
